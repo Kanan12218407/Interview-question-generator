@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Interview Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            transition: opacity 0.5s ease-in-out;
+        }
+        h2 {
+            color: #333;
+        }
+        p {
+            font-size: 18px;
+            color: #555;
+            margin: 15px 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .loading {
+            display: none;
+            font-size: 16px;
+            color: #888;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="question-container">
+    <h2>Interview Question for <span id="job-title">{{ job_title }}</span></h2>
+    <p id="question-text">{{ question }}</p>
+    
+    <button class="btn" onclick="reloadQuestion()">Generate Another</button>
+    <p class="loading" id="loading-text">Loading...</p>
+</div>
+
+<script>
+    function reloadQuestion() {
+        document.getElementById('question-text').style.opacity = '0';
+        document.getElementById('loading-text').style.display = 'block';
+
+        // Redirect after animation delay
+        setTimeout(function() {
+            window.location.href = "{% url 'generate_question' %}";
+        }, 800);
+    }
+</script>
+
+</body>
+</html>

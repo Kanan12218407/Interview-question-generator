@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Interview Questions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 700px;
+            margin-top: 50px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .copy-btn {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="mb-3 text-center">Interview Questions for "{{ job_title }}"</h2>
+
+    {% if questions %}
+        <div class="accordion" id="questionsAccordion">
+            {% for level, q_list in questions.items %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading{{ level }}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ level }}" aria-expanded="false">
+                        {{ level }} Questions
+                    </button>
+                </h2>
+                <div id="collapse{{ level }}" class="accordion-collapse collapse" data-bs-parent="#questionsAccordion">
+                    <div class="accordion-body">
+                        <ul class="list-group">
+                            {% for q in q_list %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span class="question-text">{{ q }}</span>
+                                    <button class="btn btn-sm btn-outline-secondary copy-btn" data-question="{{ q }}">Copy</button>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% elif gpt_question %}
+        <h4 class="mt-4">AI Generated Question</h4>
+        <p class="alert alert-info">{{ gpt_question }}</p>
+    {% else %}
+        <p class="alert alert-danger">No questions found.</p>
+    {% endif %}
+
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{% url 'generate_question' %}" class="btn btn-primary">Generate Another</a>
+        <a href="/" class="btn btn-secondary">Back to Home</a>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.copy-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            let questionText = this.getAttribute('data-question');
+            navigator.clipboard.writeText(questionText).then(() => {
+                alert("Copied: " + questionText);
+            });
+        });
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
